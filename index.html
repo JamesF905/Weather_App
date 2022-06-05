@@ -5,59 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-<!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" /> -->
-<!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" /> -->
-<!--<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" /> -->
+    <!-- <link rel="stylesheet" href="assets/css/reset.css" /> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
     <link rel="stylesheet" href="assets/css/styles.css" />
     <title>Weather App</title>
 </head>
 <body>
     <header>
-        <h1>Weather Dashboard</h1>
+        
+            <h1>Weather Dashboard</h1>
     </header>
     <main>
-        <aside>
-            <h1>
-                Search for a City
-            </h1>
-            <form>
-
+        <nav>
+            <img id="mobile_nav" src="https://icon-library.com/images/white-hamburger-menu-icon/white-hamburger-menu-icon-24.jpg" alt="Navigation Dropdown" />
+            <form id="form_city_search">
+                <h2>Search a Location</h2>        
+                <input id="city" class="nav_elements" name="name" type="text" placeholder="Select a City" autocomplete="off"/>
+                <button id="submit_button" class="nav_elements" type="submit">Search</button>
+                <hr/>
             </form>
-            <hr/>
-            <button></button>
-            <button></button>
-            <button></button>
-            <button></button>
-            <button></button>
-            <button></button>            
-        </aside>
-        <section>
-            <h2>Toronto</h2>
-            <ul>
-                <li>
-                    Temp
-                </li>
-                <li>
-                    Wind
-                </li>
-                <li>
-                    Humidity
-                </li>
-                <li>
-                    Uv : <i>2.6</i>
-                </li>
-            </ul>
-        </section>
-        <section>
-            <h2>5-Day Forecast</h2>
-            <div>
-                <ul>
-                    <li>
-                        Date
-                    </li>
-                    <li>
-                        Icon
-                    </li>
+            <button class="nav_elements past" type="submit" >past city</button>
+            <button class="nav_elements past" type="submit">past city</button>
+            <button class="nav_elements past" type="submit">past city</button>
+                      
+        </nav>
+        <div id="mobile_buffer"></div>
+        <article>
+            <section id="one_day">
+                <h2 id="city_name">fartland</h2>
+                <ul id="one_day_list">
                     <li>
                         Temp
                     </li>
@@ -67,9 +46,112 @@
                     <li>
                         Humidity
                     </li>
+                    <li>
+                        Uv : <i id="uv_index">2.6</i>
+                    </li>
                 </ul>
-            </div>
-        </section>        
+            </section>
+            <section id="five_day">
+                <h2>5-Day Forecast</h2>                
+                <section id="cards_container">
+                    <div class="cards">
+                        <ul>
+                            <li>
+                                Date
+                            </li>
+                            <li>
+                                Icon
+                            </li>
+                            <li>
+                                Temp
+                            </li>
+                            <li>
+                                Wind
+                            </li>
+                            <li>
+                                Humidity
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="cards">
+                        <ul>
+                            <li>
+                                Date
+                            </li>
+                            <li>
+                                Icon
+                            </li>
+                            <li>
+                                Temp
+                            </li>
+                            <li>
+                                Wind
+                            </li>
+                            <li>
+                                Humidity
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="cards">
+                        <ul>
+                            <li>
+                                Date
+                            </li>
+                            <li>
+                                Icon
+                            </li>
+                            <li>
+                                Temp
+                            </li>
+                            <li>
+                                Wind
+                            </li>
+                            <li>
+                                Humidity
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="cards">
+                        <ul>
+                            <li>
+                                Date
+                            </li>
+                            <li>
+                                Icon
+                            </li>
+                            <li>
+                                Temp
+                            </li>
+                            <li>
+                                Wind
+                            </li>
+                            <li>
+                                Humidity
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="cards">
+                        <ul>
+                            <li>
+                                Date
+                            </li>
+                            <li>
+                                Icon
+                            </li>
+                            <li>
+                                Temp
+                            </li>
+                            <li>
+                                Wind
+                            </li>
+                            <li>
+                                Humidity
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+            </section>
+        </article>        
     </main>   
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 

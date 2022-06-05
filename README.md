@@ -29,7 +29,13 @@
 
 [![Weather App][product-screenshot]](https://jamesf905.github.io/Weather_App)
 
-This module's challenge requires me to create the code that will run a daily work day planner. This code will rely heavily upon API's such as JQuery, Bootstrap, Momentjs, and Fontawesome. This planner uses local storage to store the daily tasks of the user, which can then be updated and/or removed. The current, past, and future hours have a different background colour to help guide the user.
+This module's challenge requires me to create an app that displays weather information based on the location given in the search bar. 
+
+The search bar will auto complete, and both a one day and 5 day report will be produced. 
+
+Searched locations will be saved in local storage and populated as click-able buttons in the navigation pannel.
+
+The UVI report will have a green yellow or red color box attached to it vased on danger level.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
