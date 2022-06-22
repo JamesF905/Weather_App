@@ -42,27 +42,33 @@ function compile(event){
     })
 }
 
-function oneDay_forecast(data){
-    
+function oneDay_forecast(data){    
     let time = data.current.dt;
-    let conditions = data.current.weather[0].main;
+    let conditions = data.current.weather[0].description;
     let icon = "http://openweathermap.org/img/w/"+data.current.weather[0].icon+".png";
     let temp = data.current.temp;
     let humidity = data.current.humidity;
     let wind_speed = data.current.wind_speed;
     let uvi = data.current.uvi;
 
-    $(" #city_name ").text(city);
-    $(" #state_name ").text(state+", "+country);
-    //$("<img>").attr("src", icon).insertBefore($(" #city_name "));
-    oneDay_array = [uvi, humidity, wind_speed, temp];
-    for(i=0;i<oneDay_array.length;i++){
-        if(i== 0){
-            $("#uv_index").text(oneDay_array[i]);    
-        }
-        $("#one_day_list").prepend($( "<li>" ).text(oneDay_array[i]));
-    }
-}
+    $("#icon").attr("src", icon);
+    $("span").attr("id","state_name").text(state+", "+country+" - "+moment.unix(time).format("h:mm A")).appendTo($(" #city_name ").text(city));
+    $("#conditions").text(conditions);
+    $("#temp").text("Temperature : "+temp);
+    $("#wind").text("Wind Speed : "+wind_speed);
+    $("#humid").text("Humidity : "+humidity);
+
+    let uvStatus = (
+    uvi < 3 ? ['uv_low','Low']:
+    uvi >= 3 && uvi < 6 ? ['uv_mod','Moderate']:
+    uvi >= 6 && uvi < 8 ? ['uv_high','High']:
+    uvi >= 8 && uvi < 11 ? ['uv_veryHigh','Very High']:
+    uvi >= 11 ? ['uv_ext','Extreme']:
+    null 
+    );
+    
+    $("<i>").attr("id","uv_index").text(uvi).addClass(uvStatus[0]).after( document.createTextNode(uvStatus[1])).appendTo($("#uv").text("UV Index:"));
+}    
 
 function fiveDay_forecast(data){
     
