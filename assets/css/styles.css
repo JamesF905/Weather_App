@@ -231,20 +231,27 @@ main{
                     flex:1 0 150px;
                     margin:0 0 20px 20px;                   
                     /*padding-bottom: 15%; */ 
-                    height:250px;
+                    /*height:250px;*/
                     border: 2px ridge rgba(32, 32, 32,0.4);
-                    box-shadow: 2px 2px 2px rgba(32, 32, 32,0.7);                                
+                    box-shadow: 2px 2px 2px rgba(32, 32, 32,0.7); 
+                    text-align: center;                            
                 }
 
                 .cards li{
-                    height: 50px;
+                    font-size: 15px;
+                    margin: 10px 0;
+                    /*height: 50px;
                     line-height: 50px;
-                    padding-left: 20px;                    
+                    padding-left: 20px;  */                  
                 }
 
-                .cards li:first-of-type{
+                .cards li:first-of-type, .cards li:nth-child(n+5):nth-child(-n+6){
                     font-weight: bolder;
-                    font-size: 30px;
+                    font-size: 25px;
+                }
+
+                .cards img{
+                    width: 86px;
                 }
                 
             
