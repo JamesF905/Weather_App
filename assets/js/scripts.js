@@ -5,13 +5,81 @@ let state;
 let country;
 $( "#submit_city" ).click(compile);
 
+$( "#city" ).keyup(myTimer);
+
+var timer;
+function myTimer() {
+    $("#loader").show();
+    $("#suggest").empty();
+    var sec = 2
+    clearInterval(timer);
+    timer = setInterval(function() { 
+    $('#suggest').text(sec--);
+    if (sec == -1) {
+      clearInterval(timer);
+        city = $( "#city" ).val();
+        if(city.length !== 0){
+            let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid="+API_key;
+            fetch(link)
+            .then(response => response.json())
+            .then(function (data) {        
+                for(i=0;i<data.length;i++){
+                    $( "<li>" ).text(`${data[i].name},${data[i].state},${data[i].country}`).appendTo($("#suggest"));
+                }
+            console.log(data);
+            })
+        }
+        $("#loader").hide();
+    } 
+    }   , 1000);
+
+}
+
+$("#reset").click(function() {
+   myTimer();
+});
+
+
+
+function fart(){
+    let tot = $( "#city" ).val().length;
+    //if(tot % 2 === 0){
+        $("#suggest").empty();
+        city = $( "#city" ).val();
+        let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid="+API_key;
+        fetch(link)
+        .then(response => response.json())
+        .then(function (data) {        
+            for(i=0;i<data.length;i++){
+                $( "<li>" ).text(`${data[i].name},${data[i].state},${data[i].country}`).appendTo($("#suggest"));
+            }
+        console.log(data);
+        })        
+    //}    
+}
+
+/*
+// Keydown event
+textAreaEl.addEventListener('keydown', function (event) {
+    // Access value of pressed key with key property
+    var key = event.key.toLowerCase();
+    var alphabetNumericCharacters = 'abcdefghijklmnopqrstuvwxyz0123456789 '.split(
+      ''
+    );
+    if (alphabetNumericCharacters.includes(key)) {
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].textContent += event.key;
+      }
+    }
+  });*/
+
 
 function compile(event){
     event.preventDefault();
     city = $( "#city" ).val();
-    state = "Ontario"; /*$( "#city" ).val();*/
-    country = "CA"; /*$( "#city" ).val();*/
-    let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+","+state+","+country+"&limit=5&appid="+API_key;
+    //state = "Ontario"; /*$( "#city" ).val();*/
+    //country = "CA"; /*$( "#city" ).val();*/
+    let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid="+API_key;
     
     //send first API call
     fetch(link)
@@ -20,9 +88,9 @@ function compile(event){
         
         console.log(data);
         // get coordinates for the city to use in the oneCall API call
-        let oneCall_link = "https://api.openweathermap.org/data/2.5/onecall?lat="+data[0].lat+"&lon="+data[0].lon+"&units=metric&appid="+API_key;
-        return fetch(oneCall_link);
-    })
+        //let oneCall_link = "https://api.openweathermap.org/data/2.5/onecall?lat="+data[0].lat+"&lon="+data[0].lon+"&units=metric&appid="+API_key;
+        //return fetch(oneCall_link);
+    })/*
     .then(response => response.json())
     .then(function (data) {
         
@@ -31,8 +99,8 @@ function compile(event){
         console.log(data);
         //send the link for the fiveDay API call 
         /*let fiveDay_link = "https://api.openweathermap.org/data/2.5/forecast?lat="+data.lat+"&lon="+data.lon+"&units=metric&appid="+API_key;
-        return fetch(fiveDay_link);*/
-    })/*
+        return fetch(fiveDay_link);
+    })*//*
     .then(response => response.json())
     .then(function (data) {
         
@@ -77,7 +145,7 @@ function fiveDay_forecast(data){
     $("#cards_container").empty();
     for(i=0; i<5; i++){
         let day = moment.unix(data.daily[i].dt).format("ddd");
-        let dayofM = moment.unix(data.daily[i].dt).format("MMM Do");
+        let dayofM = moment.unix(data.daily[i].dt).format("MMM Do YYYY");
         let conditions = data.daily[i].weather[0].description;
         let icon = "http://openweathermap.org/img/w/"+data.daily[i].weather[0].icon+".png";
         let max_temp = data.daily[i].temp.max;
@@ -89,7 +157,7 @@ function fiveDay_forecast(data){
         let list = $("<ul>");
         $("<li>").text(day).appendTo(list);
         $("<li>").text(dayofM).appendTo(list);
-        $("<img>").attr("src", icon).appendTo($("<li>")).appendTo(list);
+        $("<li>").append($("<img>").attr("src", icon)).appendTo(list);
         $("<li>").text(conditions).appendTo(list);
         $("<li>").text(+max_temp+"°C").appendTo(list);
         $("<li>").text(+min_temp+"°C").appendTo(list);

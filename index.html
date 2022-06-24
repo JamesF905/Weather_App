@@ -23,7 +23,13 @@
             <img id="mobile_nav" src="https://icon-library.com/images/white-hamburger-menu-icon/white-hamburger-menu-icon-24.jpg" alt="Navigation Dropdown" />
             <form id="form_city_search">
                 <h2>Search a Location</h2>        
-                <input id="city" class="nav_elements" name="name" type="text" placeholder="Select a City" autoComplete="home city"/>
+                <input id="city" class="nav_elements" name="name" type="text" placeholder="Select a City" autoComplete="off"/>
+                <div style="background-color:aliceblue">
+                    <img id="loader" src="images/loading.gif" width="20px" height="20px" style="display:none">
+                    <ul id="suggest">
+                        
+                    </ul>
+                </div>
                 <button id="submit_city" class="nav_elements" type="submit">Search</button>
                 <hr/>
             </form>
@@ -60,7 +66,8 @@
         </article>        
     </main>   
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/path/to/jquery.typewatch.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="assets/js/scripts.js"></script>
 </body>
