@@ -4,9 +4,51 @@ let city;
 let state;
 let country;
 $( "#submit_city" ).click(compile);
+$( "#city" ).keyup(auto_fill);
 
-$( "#city" ).keyup(myTimer);
+var timer;
+function auto_fill() {    
+    clearInterval(timer);
+    $("#suggest").empty().hide();
+    $( "#city" ).removeClass("loader");
+    city = $( "#city" ).val();
+    if (city.length > 0){
+        $( "#city" ).addClass("loader");
+        var sec = 5
+        timer = setInterval(function() {
+        sec--;
+        //$("#suggest").text(sec);
+            if (sec <1) {
+                clearInterval(timer);
+                $( "#city" ).removeClass("loader");
+                    let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid="+API_key;
+                    fetch(link)
+                    .then(response => response.json())
+                    .then(function (data) {        
+                        let found = 0;
+                        for(i=0;i<data.length;i++){
+                            let full_name = "";                                
+                                if (data[i].name) full_name += data[i].name;
+                                if (data[i].state) full_name += ", "+data[i].state;
+                                if (data[i].country) full_name += ", "+data[i].country;
+                                if(full_name.toLowerCase().startsWith(city.toLowerCase())) {
+                                    if(found === 0) {
+                                        $( "#city" ).val(full_name);
+                                    } else{
+                                        $( "<li>" ).text(full_name).appendTo($("#suggest").show());
+                                    }
+                                    found++;
+                                }
+                        }
+                        console.log(data);
+                    })
+                }
+        }   , 1000);
+    }
+}
 
+
+/*
 var timer;
 function myTimer() {
     $("#loader").show();
@@ -15,7 +57,7 @@ function myTimer() {
     clearInterval(timer);
     timer = setInterval(function() { 
     $('#suggest').text(sec--);
-    if (sec == -1) {
+    if (sec == 0) {
       clearInterval(timer);
         city = $( "#city" ).val();
         if(city.length !== 0){
@@ -24,7 +66,7 @@ function myTimer() {
             .then(response => response.json())
             .then(function (data) {        
                 for(i=0;i<data.length;i++){
-                    $( "<li>" ).text(`${data[i].name},${data[i].state},${data[i].country}`).appendTo($("#suggest"));
+                    $( "<li>" ).text(`${data[i].name}, ${data[i].state}, ${data[i].country}`).appendTo($("#suggest"));
                 }
             console.log(data);
             })
@@ -38,7 +80,7 @@ function myTimer() {
 $("#reset").click(function() {
    myTimer();
 });
-
+*/
 
 
 function fart(){

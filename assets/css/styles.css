@@ -89,7 +89,7 @@ main{
             margin: 10px 0;
         }
 
-        .nav_elements, #uv_index, .cards{
+        .nav_elements, #uv_index, .cards, #suggest{
             border-radius: 4px;
         }
 
@@ -97,6 +97,19 @@ main{
             box-sizing: border-box;
             border: 2px solid #202020;
             outline: none;
+        }
+        
+        .loader{
+            background-size: 20px 20px;
+            background-repeat: no-repeat;
+            background-position: 95%;
+            transition: none;
+            background-image: url("../../images/loading.gif")
+        }
+
+        #suggest{
+            border:2px solid;
+            display: none;
         }
 
         button{
@@ -117,7 +130,7 @@ main{
                 background-color: #525252;
                 opacity: 0.8;
             }
-            #city:focus{
+            #city:focus, #suggest{
                 border-color:green;
             }
 
