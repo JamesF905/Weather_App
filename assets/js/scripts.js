@@ -1,20 +1,19 @@
 
 let API_key = "52b83ade18965ec1516feaeccd8b85c8";
-let city;
-let state;
-let country;
-$( "#submit_city" ).click(compile);
+let co_ord;
+$( "#submit_city" ).click(save_info);
+$( '#suggest' ).on( "click", "li", set_city);
+$( '<nav>' ).on( "click", ".past", compile);
 $( "#city" ).keyup(auto_fill);
 
 var timer;
 function auto_fill() {    
     clearInterval(timer);
     $("#suggest").empty().hide();
-    $( "#city" ).removeClass("loader");
-    city = $( "#city" ).val();
+    let city = $( "#city" ).val();
     if (city.length > 0){
         $( "#city" ).addClass("loader");
-        var sec = 5
+        var sec = 2
         timer = setInterval(function() {
         sec--;
         //$("#suggest").text(sec);
@@ -25,19 +24,25 @@ function auto_fill() {
                 console.log(city);
                 let overONE = "";  
                 if (city.length >= 2){
-                    city.length = 2;
+                    if(city[1] !== ''){
+                        city.length = 2;
+                        overONE = ",";
+                    }else{
+                        city.length = 1;
+                    }
                     console.log(city);
-                    city = city.toString();
-                    overONE = ",";
+                    city = city.toString();                    
                     console.log(city+overONE);
                 }     
                     let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+overONE+"&limit=5&appid="+API_key;
-                    alert(link),
                     fetch(link)
                     .then(response => response.json())
-                    .then(function (data) {        
+                    .then(function (data) {
+                        console.log(data);        
                         if(data.length > 0){
                             $("#city").attr("style","border-color:green");
+                            $("#suggest").show();
+                            $("#suggest_error").empty();
                             let duplicate_check = [];
                             for(i=0;i<data.length;i++){
                                 let full_name = "";                                
@@ -49,129 +54,105 @@ function auto_fill() {
                                 
                                 if(full_name.startsWith(city)){
                                     if ($.inArray(full_name, duplicate_check) == -1){
-                                        $( "<li>" ).text(full_name).attr({
-                                            "data-lat" : data[i].lat,
-                                            "data-lon" : data[i].lon
-                                        }).appendTo($("#suggest").show());
+                                        let city_info = {
+                                            lat : data[i].lat,
+                                            lon : data[i].lon,
+                                            name : data[i].name,
+                                            state : data[i].state,
+                                            country : data[i].country
+                                        }
+
+                                        city_info = JSON.stringify(city_info);
+
+                                        if (duplicate_check.length == 0){
+                                            $( "#city" ).attr("data-info", city_info);
+                                        }
+                                        if (full_name !== $( "#city" ).val().toLowerCase().replace(/ /g,'')){
+                                            $( "<li>" ).text(full_name).attr("data-info", city_info).appendTo($("#suggest"));
+                                        }
                                         duplicate_check.push(full_name);
                                     }                               
                                 }
                             }
                             console.log(duplicate_check);
                         } else {
-                            $("#city").attr("style","border-color:red");
+                            $( "#city" ).attr({
+                                "data-info" : "",
+                                "style" : "border-color:red"
+                            });
+                            $("#suggest_error").text("No results. Check your spelling, or include the full name of the State/Province.");
                         }
                     console.log(data);
                     
                     })
                 }
         }   , 1000);
+    } else {
+        $("#suggest_error").empty();
+        $("#city").attr("style","border-color: initial");
+        $( "#city" ).removeClass("loader");
     }
 }
 
-
-/*
-var timer;
-function myTimer() {
-    $("#loader").show();
-    $("#suggest").empty();
-    var sec = 2
-    clearInterval(timer);
-    timer = setInterval(function() { 
-    $('#suggest').text(sec--);
-    if (sec == 0) {
-      clearInterval(timer);
-        city = $( "#city" ).val();
-        if(city.length !== 0){
-            let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid="+API_key;
-            fetch(link)
-            .then(response => response.json())
-            .then(function (data) {        
-                for(i=0;i<data.length;i++){
-                    $( "<li>" ).text(`${data[i].name}, ${data[i].state}, ${data[i].country}`).appendTo($("#suggest"));
-                }
-            console.log(data);
-            })
-        }
-        $("#loader").hide();
-    } 
-    }   , 1000);
-
+function set_city(){
+    $( "#city" ).attr({
+        "data-info" : $(this).attr('data-info'),
+        "style" : "border-color:green"
+    }).val($(this).text());
+    $("#suggest").empty().hide();
 }
 
-$("#reset").click(function() {
-   myTimer();
-});
-*/
-
-
-function fart(){
-    let tot = $( "#city" ).val().length;
-    //if(tot % 2 === 0){
-        $("#suggest").empty();
-        city = $( "#city" ).val();
-        let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid="+API_key;
-        fetch(link)
-        .then(response => response.json())
-        .then(function (data) {        
-            for(i=0;i<data.length;i++){
-                $( "<li>" ).text(`${data[i].name},${data[i].state},${data[i].country}`).appendTo($("#suggest"));
-            }
-        console.log(data);
-        })        
-    //}    
-}
-
-/*
-// Keydown event
-textAreaEl.addEventListener('keydown', function (event) {
-    // Access value of pressed key with key property
-    var key = event.key.toLowerCase();
-    var alphabetNumericCharacters = 'abcdefghijklmnopqrstuvwxyz0123456789 '.split(
-      ''
-    );
-    if (alphabetNumericCharacters.includes(key)) {
-      for (var i = 0; i < elements.length; i++) {
-        elements[i].textContent += event.key;
-      }
-    }
-  });*/
-
-
-function compile(event){
+function save_info(event){
     event.preventDefault();
-    city = $( "#city" ).val();
-    //state = "Ontario"; /*$( "#city" ).val();*/
-    //country = "CA"; /*$( "#city" ).val();*/
-    let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid="+API_key;
+    let cities = JSON.parse(localStorage.getItem("city_list"));
+    console.log(cities);
+    let new_city = JSON.parse($("#city").attr('data-info'));
+    let found == false;
+
+    if (cities !== null) {
+        for(i=0; i < cities.length; i++){
+            if ((cities[i].lat === new_city.lat) && (cities[i].lon === new_city.lon)){
+                alert("same city silly! lat - "+cities[i].lat+" lat - "+new_city.lat);
+                alert("same city silly! lon- "+cities[i].lon+" lon - "+new_city.lon);
+                found == true;
+                break;
+            }
+        }
+        if(found == false){
+            input = cities.push(new_city);
+        }
+    }
+
+    localStorage.setItem("city_list", JSON.stringify(input));
+    //compile(JSON.stringify(new_city));
+}
+/*
+function renderMessage() {
+  var lastGrade = JSON.parse(localStorage.getItem("studentGrade"));
+  if (lastGrade !== null) {
+    document.querySelector(".message").textContent = lastGrade.student + 
+    " received a/an " + lastGrade.grade
+  }
+}
+
+}
+*/
+function compile(source){  
+    co_ord =  JSON.parse(source);
     
+    if(co_ord.lat == '' || co_ord.lon == ''){
+        return;
+    }
+
     //send first API call
+    let link = "https://api.openweathermap.org/data/2.5/onecall?lat="+co_ord.lat+"&lon="+co_ord.lon+"&units=metric&appid="+API_key;
     fetch(link)
     .then(response => response.json())
-    .then(function (data) {
-        
-        console.log(data);
-        // get coordinates for the city to use in the oneCall API call
-        //let oneCall_link = "https://api.openweathermap.org/data/2.5/onecall?lat="+data[0].lat+"&lon="+data[0].lon+"&units=metric&appid="+API_key;
-        //return fetch(oneCall_link);
-    })/*
-    .then(response => response.json())
-    .then(function (data) {
-        
+    .then(function (data) {        
         //compile the html for the one call
         oneDay_forecast(data);
         console.log(data);
-        //send the link for the fiveDay API call 
-        /*let fiveDay_link = "https://api.openweathermap.org/data/2.5/forecast?lat="+data.lat+"&lon="+data.lon+"&units=metric&appid="+API_key;
-        return fetch(fiveDay_link);
-    })*//*
-    .then(response => response.json())
-    .then(function (data) {
-        
-        //compile the html for the 5 day forecast
-        fiveDay_forecast(data);
-        console.log(data);
-    })*/
+    })
 }
 
 function oneDay_forecast(data){    
@@ -183,8 +164,9 @@ function oneDay_forecast(data){
     let wind_speed = data.current.wind_speed;
     let uvi = data.current.uvi;
 
+    let state_cty = co_ord.state ? co_ord.state+", "+co_ord.country : co_ord.country;
     $("#icon").attr("src", icon);
-    $("span").attr("id","state_name").text(state+", "+country+" - "+time).appendTo($(" #city_name ").text(city));
+    $("span").attr("id","state_name").text(state_cty+" - "+time).appendTo($(" #city_name ").text(co_ord.name));
     $("#conditions").text(conditions);
     $("#temp").text("Temperature : "+temp+"°C");
     $("#wind").text("Wind Speed : "+wind_speed+"KM/H");

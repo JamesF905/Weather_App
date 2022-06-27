@@ -23,8 +23,9 @@
             <img id="mobile_nav" src="https://icon-library.com/images/white-hamburger-menu-icon/white-hamburger-menu-icon-24.jpg" alt="Navigation Dropdown" />
             <form id="form_city_search">
                 <h2>Location</h2>        
-                <input id="city" class="nav_elements" name="name" type="text" placeholder="Select a City, State, Country" autoComplete="off"/>
+                <input id="city" class="nav_elements" name="name" type="text" placeholder="Select a City, State, Country" autoComplete="off" data-lat="" data-lon=""/>
                 <div style="background-color:aliceblue">
+                    <p id="suggest_error"></p>
                     <ul id="suggest">
                         
                     </ul>
@@ -32,9 +33,9 @@
                 <button id="submit_city" class="nav_elements" type="submit">Search</button>
                 <hr/>
             </form>
-            <button class="nav_elements past" type="submit" >past city</button>
-            <button class="nav_elements past" type="submit">past city</button>
-            <button class="nav_elements past" type="submit">past city</button>
+            <button class="nav_elements past" type="button">past city</button>
+            <button class="nav_elements past" type="button">past city</button>
+            <button class="nav_elements past" type="button">past city</button>
                       
         </nav>
         <div id="mobile_buffer"></div>

@@ -112,6 +112,14 @@ main{
             display: none;
         }
 
+        #suggest li{
+            cursor: pointer;
+        }
+
+        #suggest_error{
+            color: red;
+        }
+
         button{
             cursor: pointer;
             background-color:darkgray;            
