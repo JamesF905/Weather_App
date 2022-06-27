@@ -18,29 +18,51 @@ function auto_fill() {
         timer = setInterval(function() {
         sec--;
         //$("#suggest").text(sec);
-            if (sec <1) {
+            if (sec == 0) {
                 clearInterval(timer);
                 $( "#city" ).removeClass("loader");
-                    let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid="+API_key;
+                city = city.toLowerCase().replace(/ /g,'').split(",");
+                console.log(city);
+                let overONE = "";  
+                if (city.length >= 2){
+                    city.length = 2;
+                    console.log(city);
+                    city = city.toString();
+                    overONE = ",";
+                    console.log(city+overONE);
+                }     
+                    let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+overONE+"&limit=5&appid="+API_key;
+                    alert(link),
                     fetch(link)
                     .then(response => response.json())
                     .then(function (data) {        
-                        let found = 0;
-                        for(i=0;i<data.length;i++){
-                            let full_name = "";                                
+                        if(data.length > 0){
+                            $("#city").attr("style","border-color:green");
+                            let duplicate_check = [];
+                            for(i=0;i<data.length;i++){
+                                let full_name = "";                                
                                 if (data[i].name) full_name += data[i].name;
-                                if (data[i].state) full_name += ", "+data[i].state;
-                                if (data[i].country) full_name += ", "+data[i].country;
-                                if(full_name.toLowerCase().startsWith(city.toLowerCase())) {
-                                    if(found === 0) {
-                                        $( "#city" ).val(full_name);
-                                    } else{
-                                        $( "<li>" ).text(full_name).appendTo($("#suggest").show());
-                                    }
-                                    found++;
+                                if (data[i].state) full_name += ","+data[i].state;
+                                if (data[i].country) full_name += ","+data[i].country;                            
+                                full_name = full_name.toLowerCase();                            
+                                
+                                
+                                if(full_name.startsWith(city)){
+                                    if ($.inArray(full_name, duplicate_check) == -1){
+                                        $( "<li>" ).text(full_name).attr({
+                                            "data-lat" : data[i].lat,
+                                            "data-lon" : data[i].lon
+                                        }).appendTo($("#suggest").show());
+                                        duplicate_check.push(full_name);
+                                    }                               
                                 }
+                            }
+                            console.log(duplicate_check);
+                        } else {
+                            $("#city").attr("style","border-color:red");
                         }
-                        console.log(data);
+                    console.log(data);
+                    
                     })
                 }
         }   , 1000);

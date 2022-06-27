@@ -122,7 +122,7 @@ main{
         }
 
 
-            button:hover, button:active{
+            button:hover, button:active, #suggest li{
                 box-shadow: 2px 2px rgb(41, 41, 41);
                 border: 1px solid black;
             }
@@ -131,7 +131,7 @@ main{
                 opacity: 0.8;
             }
             #city:focus, #suggest{
-                border-color:green;
+                border-color:rgb(0, 81, 255);
             }
 
     #mobile_buffer{
@@ -156,7 +156,7 @@ main{
             flex:0 0 400px;
         }
 
-        #one_day *{
+        #one_day *, #suggest{
             text-transform:capitalize;
         }
         
