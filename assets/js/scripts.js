@@ -1,10 +1,16 @@
 
 let API_key = "52b83ade18965ec1516feaeccd8b85c8";
+const default_city ='{"lat":43.6534817,"lon":-79.3839347,"name":"Toronto","state":"Ontario","country":"CA"}'
 let co_ord;
-$( "#submit_city" ).click(save_info);
-$( '#suggest' ).on( "click", "li", set_city);
-$( '<nav>' ).on( "click", ".past", compile);
 $( "#city" ).keyup(auto_fill);
+$( '#suggest' ).on( "click", "li", set_city);
+$( "#submit_city" ).click(save_info);
+$( '#past_searches' ).on( "click", ".past", function (){compile($(this).attr('data-info'))});
+$( "#clear" ).click(function(){
+    localStorage.removeItem("city_list");
+    renderPast_buttons();
+})
+
 
 var timer;
 function auto_fill() {    
@@ -13,14 +19,21 @@ function auto_fill() {
     let city = $( "#city" ).val();
     if (city.length > 0){
         $( "#city" ).addClass("loader");
-        var sec = 2
+        var sec = 1
         timer = setInterval(function() {
         sec--;
-        //$("#suggest").text(sec);
             if (sec == 0) {
                 clearInterval(timer);
-                $( "#city" ).removeClass("loader");
-                city = city.toLowerCase().replace(/ /g,'').split(",");
+                $("#city").attr({
+                    "style" : "border-color: initial", 
+                    "data-info" : ""
+                }).removeClass("loader");
+                $("#suggest_error").empty().hide();               
+                city = city.toLowerCase().split(",");
+                console.log(city);
+                for(i=0; i<city.length; i++){
+                    city[i] = $.trim(city[i]);
+                }
                 console.log(city);
                 let overONE = "";  
                 if (city.length >= 2){
@@ -33,16 +46,13 @@ function auto_fill() {
                     console.log(city);
                     city = city.toString();                    
                     console.log(city+overONE);
-                }     
+                } 
                     let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+overONE+"&limit=5&appid="+API_key;
                     fetch(link)
                     .then(response => response.json())
                     .then(function (data) {
                         console.log(data);        
                         if(data.length > 0){
-                            $("#city").attr("style","border-color:green");
-                            $("#suggest").show();
-                            $("#suggest_error").empty();
                             let duplicate_check = [];
                             for(i=0;i<data.length;i++){
                                 let full_name = "";                                
@@ -53,6 +63,8 @@ function auto_fill() {
                                 
                                 
                                 if(full_name.startsWith(city)){
+                                    $("#city").css("border-color","green");
+                                    $("#suggest").show();
                                     if ($.inArray(full_name, duplicate_check) == -1){
                                         let city_info = {
                                             lat : data[i].lat,
@@ -67,30 +79,32 @@ function auto_fill() {
                                         if (duplicate_check.length == 0){
                                             $( "#city" ).attr("data-info", city_info);
                                         }
-                                        if (full_name !== $( "#city" ).val().toLowerCase().replace(/ /g,'')){
-                                            $( "<li>" ).text(full_name).attr("data-info", city_info).appendTo($("#suggest"));
+                                        if (full_name !== $( "#city" ).val().toLowerCase()){
+                                            $( "<li>" ).text(full_name.replace(/,/g,', ')).attr("data-info", city_info).appendTo($("#suggest"));
                                         }
                                         duplicate_check.push(full_name);
                                     }                               
                                 }
                             }
+                            if(duplicate_check.length == 0){
+                                $( "#city" ).css("border-color","red");
+                                $("#suggest_error").text("No results. Check your spelling, or include the full name of the State/Province.").show();
+                            }
                             console.log(duplicate_check);
                         } else {
-                            $( "#city" ).attr({
-                                "data-info" : "",
-                                "style" : "border-color:red"
-                            });
-                            $("#suggest_error").text("No results. Check your spelling, or include the full name of the State/Province.");
-                        }
-                    console.log(data);
-                    
+                            $( "#city" ).css("border-color","red");
+                            $("#suggest_error").text("No results. Check your spelling, or include the full name of the State/Province.").show();
+                        }                    
                     })
                 }
         }   , 1000);
     } else {
-        $("#suggest_error").empty();
-        $("#city").attr("style","border-color: initial");
-        $( "#city" ).removeClass("loader");
+        $("#suggest_error").empty().hide();
+        $("#city").attr({
+            "style" : "border-color: initial", 
+            "data-info" : ""
+        }).removeClass("loader");
+        $("#suggest_error").empty().hide();
     }
 }
 
@@ -99,47 +113,74 @@ function set_city(){
         "data-info" : $(this).attr('data-info'),
         "style" : "border-color:green"
     }).val($(this).text());
-    $("#suggest").empty().hide();
+    //$("#suggest").empty().hide();
+    //alert($(window).width());
+    document.documentElement.clientWidth > 587 ? $("#suggest").empty().hide() : null;
 }
 
 function save_info(event){
     event.preventDefault();
-    let cities = JSON.parse(localStorage.getItem("city_list"));
-    console.log(cities);
-    let new_city = JSON.parse($("#city").attr('data-info'));
-    let found == false;
+    let info = $("#city").attr("data-info");
+    if(info !== ""){
+        $("#suggest").empty().hide();
+        let cities = JSON.parse(localStorage.getItem("city_list"));
+        console.log(cities);
+        let new_city = JSON.parse($("#city").attr('data-info'));
+        let found = false;
 
+        if (cities !== null) {
+            input = cities;
+            for(i=0; i < cities.length; i++){
+                if ((cities[i].lat === new_city.lat) && (cities[i].lon === new_city.lon)){
+                    found = true;
+                    break;
+                }
+            }
+            if(found == false){
+                input.push(new_city);
+            }
+        }else{
+            input = [new_city];
+        }
+
+        localStorage.setItem("city_list", JSON.stringify(input));
+        
+        renderPast_buttons();
+        compile(JSON.stringify(new_city));
+    }else{
+        $( "#city" ).css("border-color","red");
+        $("#suggest_error").text("No results. Check your spelling, or include the full name of the State/Province.").show();
+    }
+}
+
+function renderPast_buttons() {
+    $( "#city" ).val("").attr({
+        'data-info' : '',
+        "style" : "border-color: initial",
+    });
+    $('#past_searches').empty();
+    $("#clear").css("display", "none");
+    let cities = JSON.parse(localStorage.getItem("city_list"));
     if (cities !== null) {
         for(i=0; i < cities.length; i++){
-            if ((cities[i].lat === new_city.lat) && (cities[i].lon === new_city.lon)){
-                alert("same city silly! lat - "+cities[i].lat+" lat - "+new_city.lat);
-                alert("same city silly! lon- "+cities[i].lon+" lon - "+new_city.lon);
-                found == true;
-                break;
-            }
+            let full_name = "";                                
+            if (cities[i].name) full_name += cities[i].name;
+            if (cities[i].state) full_name += ", "+cities[i].state;
+            if (cities[i].country) full_name += ", "+cities[i].country;
+            $("<button>").attr({
+                "class" : "nav_elements past",
+                "type" : "button",
+                "data-info" : JSON.stringify(cities[i])
+            }).text(full_name).appendTo($('#past_searches'));
         }
-        if(found == false){
-            input = cities.push(new_city);
-        }
+        //Make the clear button visible
+        $("#clear").css("display", "block");
     }
-
-    localStorage.setItem("city_list", JSON.stringify(input));
-    //compile(JSON.stringify(new_city));
-}
-/*
-function renderMessage() {
-  var lastGrade = JSON.parse(localStorage.getItem("studentGrade"));
-  if (lastGrade !== null) {
-    document.querySelector(".message").textContent = lastGrade.student + 
-    " received a/an " + lastGrade.grade
-  }
 }
 
-}
-*/
+
 function compile(source){  
     co_ord =  JSON.parse(source);
-    
     if(co_ord.lat == '' || co_ord.lon == ''){
         return;
     }
@@ -214,6 +255,5 @@ function fiveDay_forecast(data){
     }
 }
 
-function city_history(data){
-    //Store in local storage
-}
+renderPast_buttons();
+compile(default_city);

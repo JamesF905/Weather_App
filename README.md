@@ -31,7 +31,13 @@
 
 This module's challenge requires me to create an app that displays weather information based on the location given in the search bar. 
 
-The search bar will auto complete, and both a one day and 5 day report will be produced. 
+When text is entered into the search bar, a timer starts, and after 1 second a call is made to the openweather API which returns an array of objects that have names that start with the given string. If no objects are found then an error is given to the user to be more specific, and to check their spelling. 
+
+When an array is succesfully returned, the top value is used to set the "data-info" attribute in the text input. This data is a json string with all the information for that city, including longitute, latitude, name, state, and country. This value is required for the second API call to run, and will return an error if it is empty. This data value can also be filled via the saved cities buttons generated from previous searches, and stored in localstorage.
+
+Once the data value is filled, and the form submitted, the second api call is made which generates html and shows all the current weather data, as well as a five day forecast. The "data-info" json string that was used to call the second API call is then saved in local storage, and used to generate buttons for past searches.
+
+ 
 
 Searched locations will be saved in local storage and populated as click-able buttons in the navigation pannel.
 
@@ -48,10 +54,10 @@ The UVI report will have a green yellow or red color box attached to it vased on
 * [Visual Studio Code](https://code.visualstudio.com/)
 * [Git Hub](https://github.com/)
 * [Git Bash](https://git-scm.com/)
-* [Bootstrap](https://getbootstrap.com/docs/3.3/)
 * [JQuery](https://git-scm.com/)
 * [Momentjs](https://momentjs.com/)
 * [Font Awesome](https://fontawesome.com/icons)
+* [Openweather API](https://openweathermap.org/api)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

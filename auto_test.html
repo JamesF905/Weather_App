@@ -5,14 +5,72 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #autoFill_container{
+            border: 2px solid inset #202020;
+            border-radius: 4px;
+            box-shadow: inset 0 0 2px;
+            width: 200px;
+        }
+        
+        input{            
+            border: 2px solid red;
+            border-radius: 4px 4px 0px 0px;
+            box-sizing: border-box;
+            width: 100%;
+            height: 50px;
+        }
+
+        li{            
+            border-top: 1px solid #202020;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        li:first-of-type{            
+            border:none;
+        }
+
+        li:hover{
+            background-color: darkgray;
+        }
+
+        li:active{
+            background-color: rgb(207, 207, 207);
+        }
+
+        ul{
+            list-style: none;
+            padding: 0;
+            margin: 0;    
+        }
+    </style>
 </head>
 <body>
+<div id="container">
+    <input type="text" placeholder="Select a City, State, Country" autoComplete="off" data-info="">
+    <ul>
+        <li>
+            test city link
+        </li>
+        <li>
+            test city link
+        </li>
+        <li>
+            test city link
+        </li>
+        <li>
+            test city link
+        </li>
+        <li>
+            test city link
+        </li>
+    </ul>
+</div>
+    
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src='//<a href="https://www.jqueryscript.net/tags.php?/map/>map</a>s.googleapis.com/maps/api/js?libraries=places"></script>
-2
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 
-    <script src="assets/js/scripts.js"></script>
+<script src="assets/js/scripts.js"></script>
 </body>
 </html>

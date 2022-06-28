@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <!-- <link rel="stylesheet" href="assets/css/reset.css" /> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
@@ -23,26 +22,25 @@
             <img id="mobile_nav" src="https://icon-library.com/images/white-hamburger-menu-icon/white-hamburger-menu-icon-24.jpg" alt="Navigation Dropdown" />
             <form id="form_city_search">
                 <h2>Location</h2>        
-                <input id="city" class="nav_elements" name="name" type="text" placeholder="Select a City, State, Country" autoComplete="off" data-lat="" data-lon=""/>
-                <div style="background-color:aliceblue">
+                <div id="autoFill_container" class="nav_elements">
+                    <input id="city"  type="text" placeholder="Select a City, State, Country" autoComplete="off" data-info=""/>
                     <p id="suggest_error"></p>
                     <ul id="suggest">
-                        
                     </ul>
                 </div>
-                <button id="submit_city" class="nav_elements" type="submit">Search</button>
+                <button id="submit_city" class="nav_elements" title="farts" type="submit">Search</button>
+                <button id="clear" class="nav_elements" type="button">Clear</button>
                 <hr/>
             </form>
-            <button class="nav_elements past" type="button">past city</button>
-            <button class="nav_elements past" type="button">past city</button>
-            <button class="nav_elements past" type="button">past city</button>
-                      
+            <div id="past_searches">
+
+            </div>                      
         </nav>
         <div id="mobile_buffer"></div>
         <article>
             <section id="one_day">
                 <div>
-                    <img id="icon" src="http://openweathermap.org/img/w/02d.png" alt="">
+                    <img id="icon" src="" alt="">
                     <h2 id="city_name"><span id="state_name"></span></h2>
                     <h3 id="conditions"></h3>                    
                 </div>                

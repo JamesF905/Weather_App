@@ -11,8 +11,12 @@ ul{
     margin: 0;
 }
 
-li, .nav_elements {
+li {
     font-size: 20px;
+}
+.nav_elements, #city{
+    font-size: 16px;
+    overflow: hidden;
 }
 
 html, body {
@@ -33,7 +37,7 @@ html, body {
 }
 
 header, .nav_elements, nav, #mobile_nav, #mobile_buffer{
-    transition: all .3s;
+    transition: all .4s;
 }
 
 header{
@@ -78,59 +82,85 @@ main{
         }
         
         .nav_elements{
-            width: 100%;
-            height: 50px;
-            line-height: 50px;           
+            width: 100%;           
             border: none;
-            padding: 0 10px;
         }
 
         nav h2, .nav_elements{
             margin: 10px 0;
         }
 
-        .nav_elements, #uv_index, .cards, #suggest{
+        .nav_elements, #uv_index, .cards, #autoFill_container, #city{
             border-radius: 4px;
+        }
+
+        #autoFill_container{
+            border: 2px solid inset #202020;
+            box-shadow: inset 0 0 2px;
+            background-color: aliceblue;
         }
 
         #city{
             box-sizing: border-box;
             border: 2px solid #202020;
             outline: none;
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            padding: 0px 26px;
+        }
+
+        #suggest_error{
+            color: red;
+            display: none;
+            padding: 10px;
+            margin: 0;
+        }
+
+        #suggest li{            
+            border-top: 1px solid #202020;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #suggest li:first-of-type{            
+            border:none;
+        }
+
+        #suggest li:hover{
+            background-color: darkgray;
+        }
+
+        #suggest li:active{
+            background-color: rgb(207, 207, 207);
         }
         
         .loader{
             background-size: 20px 20px;
             background-repeat: no-repeat;
-            background-position: 95%;
+            background-position: 98%;
             transition: none;
             background-image: url("../../images/loading.gif")
         }
 
-        #suggest{
-            border:2px solid;
-            display: none;
-        }
-
-        #suggest li{
-            cursor: pointer;
-        }
-
-        #suggest_error{
-            color: red;
-        }
-
         button{
             cursor: pointer;
-            background-color:darkgray;            
+            background-color:darkgray;
+            height: 50px;
+            line-height: 50px;           
+            border: none;
+            padding: 0 10px;            
         }
 
         #submit_city{
             background-image: linear-gradient(to right, rgb(0, 119, 255),rgb(0, 81, 255));
         }
 
+        #clear{
+            display: none;
+        }
 
-            button:hover, button:active, #suggest li{
+            button:hover, button:active{
                 box-shadow: 2px 2px rgb(41, 41, 41);
                 border: 1px solid black;
             }
@@ -138,7 +168,7 @@ main{
                 background-color: #525252;
                 opacity: 0.8;
             }
-            #city:focus, #suggest{
+            #city:focus{
                 border-color:rgb(0, 81, 255);
             }
 
@@ -164,12 +194,12 @@ main{
             flex:0 0 400px;
         }
 
-        #one_day *, #suggest{
+        #one_day *, nav{
             text-transform:capitalize;
         }
         
         #one_day li{
-            height: 80px;
+            min-height: 80px;
             line-height: 80px;
         }
         
@@ -329,31 +359,47 @@ main{
         max-width: none;
         min-width:0;
         padding: 0;
-
-    }
-
-    
+    }    
 
     nav{
         position: fixed;
         width:100%;
+        height: 60px;
         max-width:none;
         min-width:0;
-        opacity:0.9;
         padding: 0;
         cursor: pointer;
-        height: 60px;
+        overflow: hidden;        
+    }
+
+    nav *:not(:first-child){
+        opacity: 0;
     }
 
     .nav_elements{
-        height: 40px;
         line-height: 40px;
-        border-radius:0px;
         margin:0;
-        opacity:0;
-        text-align: center;
-        border: 2px solid rgba(80, 80, 80,0.9);
+        border: none;
     }
+
+    .nav_elements, #city{
+        box-shadow:none;
+        border-radius: 0px;
+    }
+
+    button, button:hover, #city{
+        height: 40px;
+        box-shadow: none;
+    }
+
+    #clear, #submit_city, #suggest li, #suggest li:first-of-type{
+        border-top: 1px solid #202020;
+    }    
+
+    .past{
+        border-top: 1px solid aliceblue;
+        height: 40px;
+    }    
 
     #mobile_nav{
         display:block;
@@ -385,8 +431,8 @@ main{
         right:100px;
     }
     
-    nav:hover .nav_elements{
-        opacity: 1;
+    nav:hover *:not(:first-child){
+        opacity: 0.92;
     }
 
     button:hover {
@@ -403,26 +449,10 @@ main{
         background-image: none;
         color: #202020;
     }
-
-
-
     
-
-
-    
-
-    
-    
-
-    
-    
-    
-    
-    
-
     .cards:last-of-type{
         margin-right:33.33333333%;
-    }  
+    }
     
 }
 
