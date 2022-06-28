@@ -168,6 +168,7 @@ main{
 
         #clear{
             display: none;
+            margin-bottom: 20px;
         }
             /*Hover and active styles for the navigation buttons*/
             button:hover, button:active{
@@ -385,8 +386,8 @@ pushing it to the left and keeping it the same size as the rest of the cars ever
     nav *:not(:first-child){
         opacity: 0;
     }
-
-    .nav_elements{
+    
+    .nav_elements, #clear{
         line-height: 40px;
         margin:0;
         border: none;
