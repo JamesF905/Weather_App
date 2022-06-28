@@ -30,12 +30,10 @@ function auto_fill() {
                 }).removeClass("loader");
                 $("#suggest_error").empty().hide();               
                 city = city.toLowerCase().split(",");
-                console.log(city);
                 //trim white space of all array values
                 for(i=0; i<city.length; i++){
                     city[i] = $.trim(city[i]);
                 }
-                console.log(city);
                 // this adds a comma at the end of the future string if the array is over 1, needed for an accurate api call
                 let overONE = "";
                 //if the array is 2 or over remove all other keys  
@@ -46,15 +44,12 @@ function auto_fill() {
                     }else{
                         city.length = 1;
                     }
-                    console.log(city);
                     city = city.toString();                    
-                    console.log(city+overONE);
                 } 
                     let link = "https://api.openweathermap.org/geo/1.0/direct?q="+city+overONE+"&limit=5&appid="+API_key; // set and send the link to the api geo call
                     fetch(link)
                     .then(response => response.json())
-                    .then(function (data) {
-                        console.log(data);        
+                    .then(function (data) {        
                         if(data.length > 0){ //if something comes back from the api call, loop through each key, and the city, state, and country into a string. Otherwise call an error
                             let duplicate_check = []; // starts an array of returned keys
                             for(i=0;i<data.length;i++){ 
@@ -93,7 +88,6 @@ function auto_fill() {
                                 $( "#city" ).css("border-color","red");
                                 $("#suggest_error").text("No results. Check your spelling, or include the full name of the State/Province.").show();
                             }
-                            console.log(duplicate_check);
                         } else { // if nothng came back from the api throw an error 
                             $( "#city" ).css("border-color","red");
                             $("#suggest_error").text("No results. Check your spelling, or include the full name of the State/Province.").show();
@@ -133,7 +127,6 @@ function save_info(event){
     if(info !== ""){ // runs only if the data-info value is set
         $("#suggest").empty().hide();
         let cities = JSON.parse(localStorage.getItem("city_list"));
-        console.log(cities);
         let new_city = JSON.parse($("#city").attr('data-info'));
         let found = false;
 
@@ -203,7 +196,6 @@ function compile(source){
     .then(function (data) {        
         //compile the html for the one call
         oneDay_forecast(data); // send to the function that builds the one day weather report
-        console.log(data);
     })
 }
 

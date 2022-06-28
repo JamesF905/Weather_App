@@ -1,24 +1,27 @@
-:root{
-    --mobileNav_height: 60px;
-}
+/*set the h tag font sizes*/
 h1{font-size:40px;}
 h2{font-size:30px;}
 h3{font-size:20px;}
 
+/*set ul tag defaults for the whole site*/
 ul{
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
+/*set li tag defaults for the whole site*/
 li {
     font-size: 20px;
 }
+
+/*set form element styles*/
 .nav_elements, #city{
     font-size: 16px;
     overflow: hidden;
 }
 
+/*set html defaults*/
 html, body {
     margin: 0;
     background-color:aliceblue;   
@@ -27,6 +30,7 @@ html, body {
     height: 100%;  
 }
 
+/*set colors, and transitions defaults for whole site*/
 * {
     font-family: 'Noto Sans', sans-serif;    
     color: #202020; 
@@ -40,6 +44,7 @@ header, .nav_elements, nav, #mobile_nav, #mobile_buffer{
     transition: all .4s;
 }
 
+/*set header styles*/
 header{
     flex:0;
     height: 100px;
@@ -55,13 +60,14 @@ header h1{
     padding: 0 60px;
 }
 
+/*set main content block styles*/
 main{
     display: flex;
     flex-flow: row;
     justify-content: flex-start;
     flex:1;
 }
-
+    /*set the style for  navigation and it's children*/
     nav{        
         flex:1;
         min-width: 200px;
@@ -70,7 +76,7 @@ main{
         overflow: hidden;
         z-index: 2;
     }
-
+        /*mobile dropdown icon*/
         #mobile_nav{
             display:none;
             height: 60px; 
@@ -81,19 +87,23 @@ main{
             text-align: center;
         }
         
+        /*A class that belongs to all buttons*/
         .nav_elements{
             width: 100%;           
             border: none;
         }
 
+        /*Layout for nav buttons and text tags*/
         nav h2, .nav_elements{
             margin: 10px 0;
         }
 
+        /*Sets the border-radius for all added classes,id's*/
         .nav_elements, #uv_index, .cards, #autoFill_container, #city{
             border-radius: 4px;
         }
 
+        /*The following lines set all the styles for the navigation elements starting with the auto fill contain, the text input, the suggestion list, buttons, and the loader gif*/
         #autoFill_container{
             border: 2px solid inset #202020;
             box-shadow: inset 0 0 2px;
@@ -159,7 +169,7 @@ main{
         #clear{
             display: none;
         }
-
+            /*Hover and active styles for the navigation buttons*/
             button:hover, button:active{
                 box-shadow: 2px 2px rgb(41, 41, 41);
                 border: 1px solid black;
@@ -171,7 +181,8 @@ main{
             #city:focus{
                 border-color:rgb(0, 81, 255);
             }
-
+    
+    /*This sits over the navigation section near the logo in mobile mode, so that when the mouse of click is made on it, the nav section loses focus or hover and will close*/
     #mobile_buffer{
         display:none;
         height: 60px;
@@ -181,6 +192,7 @@ main{
         left:0;
         z-index: 3;
     }
+    /*all article sections set to flec from here*/
     article{
         flex:1;
         max-width: 75%;
@@ -188,6 +200,7 @@ main{
         flex-flow: column;
     }
         
+        /*The following lines handle the weather report section for current day, including it's list items, icons, and all other data brought back from the API */
         #one_day{
             margin:20px;
             border: solid 2px darkslategrey;
@@ -262,6 +275,7 @@ main{
             background-color: green;
         }
 
+        /*The following lines handle the 5 day weather forecast section. Including it's list items, icons, and all other data brought back from the API */
         #five_day{
             flex:1;
         }
@@ -280,9 +294,7 @@ main{
                 .cards{
                     background-color:rgb(10, 51, 85);                   
                     flex:1 0 150px;
-                    margin:0 0 20px 20px;                   
-                    /*padding-bottom: 15%; */ 
-                    /*height:250px;*/
+                    margin:0 0 20px 20px;
                     border: 2px ridge rgba(32, 32, 32,0.4);
                     box-shadow: 2px 2px 2px rgba(32, 32, 32,0.7); 
                     text-align: center;                            
@@ -290,10 +302,7 @@ main{
 
                 .cards li{
                     font-size: 15px;
-                    margin: 10px 0;
-                    /*height: 50px;
-                    line-height: 50px;
-                    padding-left: 20px;  */                  
+                    margin: 10px 0;                  
                 }
 
                 .cards li:first-of-type, .cards li:nth-child(n+5):nth-child(-n+6){
@@ -307,7 +316,8 @@ main{
                 
             
 
-
+/*This section 310 - 328, handles the margin of the last 5day weather card,
+pushing it to the left and keeping it the same size as the rest of the cars every time a new cards jumps the line*/
 @media only screen and (max-width: 1230px) {    
     .cards:last-of-type{
         margin-right:75%;
@@ -327,8 +337,8 @@ main{
     
 }
 
+/*This section switches the navigation to a mobile dropdown version, and changes the widths of the other articles accordingly to fill up the whole screen.*/
 @media only screen and (max-width: 604px) {
-    /*switch to mobile layout*/
     h1{font-size:32px;}
     h2{font-size:24px;}
     h3{font-size:12px;}
@@ -455,7 +465,7 @@ main{
     }
     
 }
-
+ /*this changes widths and flex layouts after all cards have jumped the line*/
 @media only screen and (max-width: 680px) {
     #one_day div {
         flex-direction: column;
@@ -473,6 +483,7 @@ main{
     }
 }
 
+/*Here until the end, more handlers for cards jumping lines, until the final jump and "fullscreen mode"*/
 @media only screen and (max-width: 558px) {
     .cards:last-of-type{
         margin-right:50%;
