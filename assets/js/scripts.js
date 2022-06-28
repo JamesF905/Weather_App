@@ -199,7 +199,7 @@ function compile(source){
 function oneDay_forecast(data){    
     let time = moment.unix(data.current.dt).format("h:mm A");
     let conditions = data.current.weather[0].description;
-    let icon = "http://openweathermap.org/img/w/"+data.current.weather[0].icon+".png";
+    let icon = "https://openweathermap.org/img/w/"+data.current.weather[0].icon+".png";
     let temp = data.current.temp;
     let humidity = data.current.humidity;
     let wind_speed = data.current.wind_speed;
@@ -234,7 +234,7 @@ function fiveDay_forecast(data){
         let day = moment.unix(data.daily[i].dt).format("ddd");
         let dayofM = moment.unix(data.daily[i].dt).format("MMM Do YYYY");
         let conditions = data.daily[i].weather[0].description;
-        let icon = "http://openweathermap.org/img/w/"+data.daily[i].weather[0].icon+".png";
+        let icon = "https://openweathermap.org/img/w/"+data.daily[i].weather[0].icon+".png";
         let max_temp = data.daily[i].temp.max;
         let min_temp = data.daily[i].temp.min;
         let humidity = data.daily[i].humidity;
