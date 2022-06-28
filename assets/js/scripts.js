@@ -47,7 +47,7 @@ function auto_fill() {
                     city = city.toString();                    
                     console.log(city+overONE);
                 } 
-                    let link = "http://api.openweathermap.org/geo/1.0/direct?q="+city+overONE+"&limit=5&appid="+API_key;
+                    let link = "https://api.openweathermap.org/geo/1.0/direct?q="+city+overONE+"&limit=5&appid="+API_key;
                     fetch(link)
                     .then(response => response.json())
                     .then(function (data) {
